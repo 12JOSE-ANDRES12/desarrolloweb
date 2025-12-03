@@ -1,10 +1,107 @@
-<!Doctype html> 
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taquería - Página Principal</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<h1>Hola mundo</h1>
+    <!-- Encabezado / Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>🌮 Taquería</h1>
+            </div>
+            <nav class="nav">
+                <a href="#mision">Misión</a>
+                <a href="#vision">Visión</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Héroe / Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Bienvenido a Nuestra Taquería</h2>
+            <p>Sabor auténtico, tradición y calidad en cada bocado</p>
+        </div>
+    </section>
+
+    <!-- Misión y Visión -->
+    <section class="mission-vision" id="mision-vision">
+        <div class="container">
+            <div class="mv-grid">
+                <!-- Misión -->
+                <div class="card mision" id="mision">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Nuestra Misión</h3>
+                    <p>
+                        Proporcionar los mejores tacos artesanales con ingredientes frescos y de calidad superior. 
+                        Nos comprometemos a ofrecer una experiencia gastronómica auténtica que celebre la tradición 
+                        culinaria mexicana en cada platillo que servimos.
+                    </p>
+                </div>
+
+                <!-- Visión -->
+                <div class="card vision" id="vision">
+                    <div class="card-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Nuestra Visión</h3>
+                    <p>
+                        Ser la taquería de referencia en la región, reconocida por nuestra dedicación a la excelencia, 
+                        innovación y sostenibilidad. Aspiramos a crear un espacio donde la comunidad se reúne para 
+                        disfrutar de comida deliciosa y momentos memorables.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Redes Sociales -->
+    <footer class="footer" id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Sobre Nosotros</h4>
+                    <p>Somos una taquería comprometida con la calidad, tradición y satisfacción del cliente.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Información de Contacto</h4>
+                    <p>📍 Dirección: Calle Principal 123</p>
+                    <p>📞 Teléfono: (555) 123-4567</p>
+                    <p>📧 Email: info@taqueria.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos en Redes Sociales</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://whatsapp.com" target="_blank" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" title="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Taquería. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 </body>
-    </html>
+</html>
