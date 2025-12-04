@@ -179,6 +179,107 @@ body {
 }
 
 /* ======================== FOOTER ======================== */
+/* ======================== CARD BUTTONS ======================== */
+.card-button {
+    display: block;
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-top: 4px solid;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+.card-button:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-button:hover::before {
+    left: 100%;
+}
+
+.card-button.mision {
+    border-top-color: var(--primary-color);
+}
+
+.card-button.vision {
+    border-top-color: var(--secondary-color);
+}
+
+.card-button .card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.card-button.mision .card-icon {
+    color: var(--primary-color);
+}
+
+.card-button.vision .card-icon {
+    color: var(--secondary-color);
+}
+
+.card-button h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.card-button p {
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-dark);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.card-button.mision .card-cta {
+    color: var(--primary-color);
+}
+
+.card-button.vision .card-cta {
+    color: var(--secondary-color);
+}
+
+.card-button:hover .card-cta {
+    transform: translateX(5px);
+}
+
+.card-button .card-cta i {
+    transition: var(--transition);
+}
+
+.card-button:hover .card-cta i {
+    transform: translateX(5px);
+}
+
+/* ======================== FOOTER ======================== */
 .footer {
     background: linear-gradient(135deg, var(--dark-bg) 0%, #34495e 100%);
     color: var(--white);
