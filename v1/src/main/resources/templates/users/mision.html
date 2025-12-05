@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Misión - Taquería</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header th:replace="FRAGMENTOS/nav.html :: nav"></header>
+
+    <!-- Héroe / Hero Section - Misión -->
+    <section class="hero" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+        <div class="hero-content">
+            <h2>Nuestra Misión</h2>
+            <p>El corazón de todo lo que hacemos</p>
+        </div>
+    </section>
+
+    <!-- Contenido de Misión -->
+    <section class="mission-detail">
+        <div class="container">
+            <div class="detail-content">
+                <div class="detail-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h1>Nuestra Misión</h1>
+                <p class="intro-text">
+                    En nuestra taquería, nos comprometemos a proporcionar una experiencia gastronómica auténtica 
+                    y de calidad superior que celebra la tradición culinaria mexicana.
+                </p>
+
+                <div class="mission-points">
+                    <div class="point-card">
+                        <i class="fas fa-leaf"></i>
+                        <h3>Ingredientes Frescos</h3>
+                        <p>
+                            Seleccionamos ingredientes frescos y de la más alta calidad, 
+                            trabajando directamente con proveedores locales para garantizar frescura y sabor auténtico.
+                        </p>
+                    </div>
+
+                    <div class="point-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Pasión por la Cocina</h3>
+                        <p>
+                            Cada taco es preparado con dedicación y amor, respetando las recetas tradicionales 
+                            y técnicas culinarias mexicanas que hemos perfeccionado durante años.
+                        </p>
+                    </div>
+
+                    <div class="point-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Satisfacción del Cliente</h3>
+                        <p>
+                            Nuestra misión es lograr la completa satisfacción de nuestros clientes, 
+                            ofreciendo un servicio amable y un ambiente acogedor en cada visita.
+                        </p>
+                    </div>
+
+                    <div class="point-card">
+                        <i class="fas fa-globe"></i>
+                        <h3>Preservar Tradición</h3>
+                        <p>
+                            Nos dedicamos a preservar y compartir la riqueza de la gastronomía mexicana, 
+                            manteniendo viva la tradición culinaria para las futuras generaciones.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mission-statement">
+                    <h2>Nuestro Compromiso</h2>
+                    <p>
+                        Proporcionar los mejores tacos artesanales con ingredientes frescos y de calidad superior. 
+                        Nos comprometemos a ofrecer una experiencia gastronómica auténtica que celebre la tradición 
+                        culinaria mexicana en cada platillo que servimos. Cada cliente que nos visita es parte de 
+                        nuestra familia, y nos esforzamos por superar sus expectativas en cada detalle.
+                    </p>
+                </div>
+
+                <div class="cta-section">
+                    <a href="/" class="btn-primary">Volver al Inicio</a>
+                    <a href="/vision" class="btn-secondary">Ver Nuestra Visión</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer th:replace="FRAGMENTOS/footer.html :: footer"></footer>
+
+    <style>
+        .mission-detail {
+            padding: 4rem 2rem;
+            background-color: #f8f9fa;
+        }
+
+        .detail-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .detail-icon {
+            font-size: 4rem;
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-content h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .mission-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .point-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .point-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .point-card i {
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .point-card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .point-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .mission-statement {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .mission-statement h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-statement p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .cta-section {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .detail-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .mission-points {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>
