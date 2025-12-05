@@ -303,13 +303,17 @@
         <div class="hero-content">
             <h2>Bienvenido a Nuestra Taquería</h2>
             <p>Sabor auténtico, tradición y calidad en cada bocado</p>
-            <div th:unless="${session.usuarioLogueado}" style="margin-top: 30px;">
-                <button onclick="mostrarLogin()" style="background: white; color: #d32f2f; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-right: 10px; font-size: 16px;">
+            <div th:unless="${session.usuarioLogueado}" style="margin-top: 30px; display: flex; gap: 10px; align-items: center;">
+                <button onclick="mostrarLogin()" style="background: white; color: #d32f2f; padding: 12px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-right: 10px; font-size: 16px;">
                     <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                 </button>
-                <button onclick="mostrarRegistro()" style="background: #d32f2f; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px;">
+                <button onclick="mostrarRegistro()" style="background: #d32f2f; color: white; padding: 12px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px;">
                     <i class="fas fa-user-plus"></i> Registrarse
                 </button>
+                <!-- Nuevo enlace a la lista de usuarios -->
+                <a href="/users/listar" style="background: transparent; border: 2px solid #ffffff; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
+                    <i class="fas fa-users"></i> Ver Usuarios
+                </a>
             </div>
         </div>
     </section>
@@ -319,7 +323,7 @@
         <div class="container">
             <div class="mv-grid">
                 <!-- Misión -->
-                <div class="card mision" id="mision">
+                <div class="card mision" id="mision" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='/mision'">
                     <div class="card-icon">
                         <i class="fas fa-bullseye"></i>
                     </div>
@@ -329,10 +333,15 @@
                         Nos comprometemos a ofrecer una experiencia gastronómica auténtica que celebre la tradición 
                         culinaria mexicana en cada platillo que servimos.
                     </p>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(0,0,0,0.1); text-align: center;">
+                        <a href="/mision" style="color: #d32f2f; font-weight: bold; text-decoration: none;">
+                            Leer más <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Visión -->
-                <div class="card vision" id="vision">
+                <div class="card vision" id="vision" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='/vision'">
                     <div class="card-icon">
                         <i class="fas fa-eye"></i>
                     </div>
@@ -342,6 +351,11 @@
                         innovación y sostenibilidad. Aspiramos a crear un espacio donde la comunidad se reúne para 
                         disfrutar de comida deliciosa y momentos memorables.
                     </p>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(0,0,0,0.1); text-align: center;">
+                        <a href="/vision" style="color: #27ae60; font-weight: bold; text-decoration: none;">
+                            Leer más <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
