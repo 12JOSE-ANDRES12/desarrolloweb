@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_users")
@@ -24,7 +25,12 @@ public class usermodel {
    @Column(name ="nombre",length= 50, nullable = false)
    String name;
    
+   @Column(name ="email", length = 100, nullable = false, unique = true)
    String email;
    
+   @Column(name ="password", nullable = false)
    String password;
+   
+   @Column(name ="created_at")
+   LocalDateTime createdAt;
 }

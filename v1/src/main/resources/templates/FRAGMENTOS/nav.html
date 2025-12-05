@@ -7,7 +7,28 @@
                 <a th="/mision.html">Misión</a>
                 <a th="/vision">Visión</a>  
                 <a href="/contacto">Contacto</a>
-                <a href="/index">inicio</a>
+                <a href="/index">Inicio</a>
+                
+                <!-- Usuario Logueado -->
+                <div th:if="${session.usuarioLogueado}" style="display: flex; align-items: center; gap: 15px;">
+                    <span style="color: white; font-weight: 500;">
+                        <i class="fas fa-user-circle"></i> 
+                        <span th:text="${session.usuarioLogueado.name}"></span>
+                    </span>
+                    <a href="/users/logout" style="background: #d32f2f; padding: 8px 15px; border-radius: 5px; color: white; text-decoration: none; font-size: 14px;">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </a>
+                </div>
+                
+                <!-- Usuario No Logueado -->
+                <div th:unless="${session.usuarioLogueado}" style="display: flex; gap: 10px;">
+                    <button onclick="mostrarLogin()" style="background: none; border: 2px solid white; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: 500;">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </button>
+                    <button onclick="mostrarRegistro()" style="background: #d32f2f; border: none; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: 500;">
+                        <i class="fas fa-user-plus"></i> Registrarse
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
