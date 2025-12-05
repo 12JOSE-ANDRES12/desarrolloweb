@@ -68,7 +68,7 @@ public class usercontroller {
         if (usuario.isPresent()) {
             session.setAttribute("usuarioLogueado", usuario.get());
             redirectAttributes.addFlashAttribute("exito", "Bienvenido " + usuario.get().getName());
-            return "redirect:/";
+            return "redirect:/menu";
         } else {
             redirectAttributes.addFlashAttribute("error", "Correo o contraseña incorrectos");
             return "redirect:/";

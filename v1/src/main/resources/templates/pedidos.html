@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito - Nuestra Taquería</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .carrito-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .carrito-hero {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+        }
+
+        .carrito-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .carrito-contenido {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .carrito-items {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .carrito-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .carrito-item:hover {
+            background: #f8f9fa;
+        }
+
+        .carrito-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-nombre {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-precio {
+            color: #d32f2f;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .item-cantidad {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 2rem;
+        }
+
+        .cantidad-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #d32f2f;
+            background: white;
+            color: #d32f2f;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cantidad-btn:hover {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .item-eliminar {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .item-eliminar:hover {
+            background: #c0392b;
+        }
+
+        .carrito-vacio {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+
+        .carrito-vacio i {
+            font-size: 4rem;
+            color: #bdc3c7;
+            margin-bottom: 1rem;
+        }
+
+        .carrito-resumen {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .resumen-titulo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 0.5rem;
+        }
+
+        .resumen-fila {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: #7f8c8d;
+        }
+
+        .resumen-fila.total {
+            border-top: 2px solid #e0e0e0;
+            padding-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .resumen-fila.total .cantidad {
+            color: #d32f2f;
+        }
+
+        .btn-confirmar {
+            width: 100%;
+            padding: 1rem;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 1.5rem;
+        }
+
+        .btn-confirmar:hover {
+            background: #b71c1c;
+        }
+
+        .btn-confirmar:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .btn-continuar-comprando {
+            width: 100%;
+            padding: 1rem;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-continuar-comprando:hover {
+            background: #229954;
+            text-decoration: none;
+            color: white;
+        }
+
+        .comentarios-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comentarios-titulo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formulario-comentario {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .formulario-comentario textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .formulario-comentario textarea:focus {
+            outline: none;
+            border-color: #d32f2f;
+        }
+
+        .clasificacion {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .estrella {
+            font-size: 1.5rem;
+            color: #bdc3c7;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .estrella:hover,
+        .estrella.activa {
+            color: #f39c12;
+        }
+
+        .btn-enviar-comentario {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-enviar-comentario:hover {
+            background: #b71c1c;
+        }
+
+        .comentarios-lista {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .comentario {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .comentario-autor {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .comentario-fecha {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.75rem;
+        }
+
+        .comentario-estrellas {
+            color: #f39c12;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .comentario-texto {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .carrito-contenido {
+                grid-template-columns: 1fr;
+            }
+
+            .carrito-resumen {
+                position: static;
+            }
+
+            .item-cantidad {
+                margin: 0 1rem;
+            }
+
+            .carrito-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        .formulario-datos {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .formulario-datos h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grupo {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grupo label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-grupo input,
+        .form-grupo select,
+        .form-grupo textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-grupo input:focus,
+        .form-grupo select:focus,
+        .form-grupo textarea:focus {
+            outline: none;
+            border-color: #d32f2f;
+        }
+
+        .form-grupo-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <header th:replace="FRAGMENTOS/nav.html :: nav"></header>
+
+    <!-- Hero Section -->
+    <div class="carrito-hero">
+        <h1><i class="fas fa-shopping-cart"></i> Mi Carrito de Compras</h1>
+        <p th:if="${session.usuarioLogueado}">
+            <span th:text="${session.usuarioLogueado.name}"></span>, revisa tu pedido antes de confirmar
+        </p>
+        <p th:unless="${session.usuarioLogueado}">Revisa tu pedido antes de confirmar</p>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div class="carrito-container">
+        <div class="carrito-contenido">
+            <!-- Items del Carrito -->
+            <div class="carrito-items" id="carritoItems">
+                <div class="carrito-vacio">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Tu carrito está vacío</p>
+                    <a href="/users/listar" style="color: #d32f2f; text-decoration: none; font-weight: 600;">
+                        Ir al menú para agregar productos
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resumen -->
+            <div class="carrito-resumen">
+                <div class="resumen-titulo"><i class="fas fa-receipt"></i> Resumen</div>
+                <div class="resumen-fila">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="resumen-fila">
+                    <span>Impuestos (10%):</span>
+                    <span id="impuestos">$0.00</span>
+                </div>
+                <div class="resumen-fila">
+                    <span>Envío:</span>
+                    <span id="envio">$0.00</span>
+                </div>
+                <div class="resumen-fila total">
+                    <span>Total:</span>
+                    <span id="total" class="cantidad">$0.00</span>
+                </div>
+                <button class="btn-confirmar" id="btnConfirmar" onclick="confirmarPedido()">
+                    <i class="fas fa-check"></i> Confirmar Pedido
+                </button>
+                <a href="/users/listar" class="btn-continuar-comprando">
+                    <i class="fas fa-arrow-left"></i> Continuar Comprando
+                </a>
+            </div>
+        </div>
+
+        <!-- Formulario de Datos del Cliente -->
+        <div class="formulario-datos" id="formDatos" style="display: none;">
+            <h3><i class="fas fa-user"></i> Información de Entrega</h3>
+            <form id="formPedido" onsubmit="procesarPedido(event)">
+                <div class="form-grupo">
+                    <label>Nombre Completo *</label>
+                    <input type="text" required placeholder="Tu nombre">
+                </div>
+
+                <div class="form-grupo-row">
+                    <div class="form-grupo">
+                        <label>Email *</label>
+                        <input type="email" required placeholder="tu@email.com">
+                    </div>
+                    <div class="form-grupo">
+                        <label>Teléfono *</label>
+                        <input type="tel" required placeholder="(555) 123-4567">
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Dirección *</label>
+                    <input type="text" required placeholder="Calle, número, apartamento">
+                </div>
+
+                <div class="form-grupo-row">
+                    <div class="form-grupo">
+                        <label>Ciudad *</label>
+                        <input type="text" required placeholder="Tu ciudad">
+                    </div>
+                    <div class="form-grupo">
+                        <label>Código Postal *</label>
+                        <input type="text" required placeholder="12345">
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Notas Especiales</label>
+                    <textarea placeholder="Instrucciones especiales para tu pedido..."></textarea>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Método de Pago *</label>
+                    <select required>
+                        <option value="">-- Selecciona un método --</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                        <option value="transferencia">Transferencia Bancaria</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-confirmar" style="background: #27ae60;">
+                    <i class="fas fa-check-circle"></i> Confirmar y Pagar
+                </button>
+            </form>
+        </div>
+
+        <!-- Comentarios y Reseñas -->
+        <div class="comentarios-section">
+            <div class="comentarios-titulo">
+                <i class="fas fa-comments"></i> Opiniones de Clientes
+            </div>
+
+            <!-- Formulario de Comentario -->
+            <div class="formulario-comentario">
+                <textarea id="textoComentario" placeholder="Comparte tu experiencia con nosotros..."></textarea>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">¿Cómo fue tu experiencia?</label>
+                    <div class="clasificacion" id="clasificacion">
+                        <span class="estrella" data-valor="1">★</span>
+                        <span class="estrella" data-valor="2">★</span>
+                        <span class="estrella" data-valor="3">★</span>
+                        <span class="estrella" data-valor="4">★</span>
+                        <span class="estrella" data-valor="5">★</span>
+                    </div>
+                </div>
+                <button class="btn-enviar-comentario" onclick="enviarComentario()">
+                    <i class="fas fa-send"></i> Enviar Comentario
+                </button>
+            </div>
+
+            <!-- Lista de Comentarios -->
+            <div class="comentarios-lista" id="listaComentarios">
+                <div class="comentario">
+                    <div class="comentario-autor"><i class="fas fa-user-circle"></i> Carlos Mendoza</div>
+                    <div class="comentario-fecha">Hace 2 días</div>
+                    <div class="comentario-estrellas">★★★★★ 5/5</div>
+                    <div class="comentario-texto">
+                        ¡Excelentes tacos! La carne estaba perfectamente sazonada y el servicio fue muy rápido. Definitivamente vuelvo a ordenar. Recomendado 100%.
+                    </div>
+                </div>
+
+                <div class="comentario">
+                    <div class="comentario-autor"><i class="fas fa-user-circle"></i> María López</div>
+                    <div class="comentario-fecha">Hace 5 días</div>
+                    <div class="comentario-estrellas">★★★★☆ 4/5</div>
+                    <div class="comentario-texto">
+                        Muy buenos sabores, las bebidas estaban frías y refrescantes. El guacamole casero es delicioso. Solo una pequeña espera en la entrega.
+                    </div>
+                </div>
+
+                <div class="comentario">
+                    <div class="comentario-autor"><i class="fas fa-user-circle"></i> Juan Rodríguez</div>
+                    <div class="comentario-fecha">Hace 1 semana</div>
+                    <div class="comentario-estrellas">★★★★★ 5/5</div>
+                    <div class="comentario-texto">
+                        Fantástico servicio, productos frescos y de calidad. Los tacos al pastor son adictivos. La mejor taquería que he probado. ¡Volveré pronto!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="~{FRAGMENTOS/footer :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <script>
+        let calificacionActual = 0;
+
+        // Cargar carrito al inicio
+        window.addEventListener('load', cargarCarrito);
+
+        function cargarCarrito() {
+            // Obtener items desde el servidor
+            fetch('/carrito/obtener-items-ajax')
+                .then(response => response.json())
+                .then(items => {
+                    const contenedor = document.getElementById('carritoItems');
+                    
+                    if (!Array.isArray(items) || items.length === 0) {
+                        contenedor.innerHTML = `
+                            <div class="carrito-vacio">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p>Tu carrito está vacío</p>
+                                <a href="/menu" style="color: #d32f2f; text-decoration: none; font-weight: 600;">
+                                    Ir al menú para agregar productos
+                                </a>
+                            </div>
+                        `;
+                        document.getElementById('btnConfirmar').disabled = true;
+                        return;
+                    }
+
+                    contenedor.innerHTML = items.map(item => `
+                        <div class="carrito-item">
+                            <div class="item-info">
+                                <div class="item-nombre">${item.nombre}</div>
+                                <div class="item-precio">$${item.precio.toFixed(2)}</div>
+                            </div>
+                            <div class="item-cantidad">
+                                <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, -1)">−</button>
+                                <span>${item.cantidad}</span>
+                                <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, 1)">+</button>
+                            </div>
+                            <div style="text-align: right; min-width: 100px;">
+                                <div style="font-weight: 600; color: #d32f2f; margin-bottom: 0.5rem;">
+                                    $${(item.precio * item.cantidad).toFixed(2)}
+                                </div>
+                                <button class="item-eliminar" onclick="eliminarItem(${item.id})">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    actualizarResumen(items);
+                })
+                .catch(error => {
+                    console.error('Error al cargar carrito:', error);
+                    // Fallback a localStorage si falla el servidor
+                    cargarCarritoLocalStorage();
+                });
+        }
+
+        function cargarCarritoLocalStorage() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const contenedor = document.getElementById('carritoItems');
+
+            if (carrito.length === 0) {
+                contenedor.innerHTML = `
+                    <div class="carrito-vacio">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Tu carrito está vacío</p>
+                        <a href="/menu" style="color: #d32f2f; text-decoration: none; font-weight: 600;">
+                            Ir al menú para agregar productos
+                        </a>
+                    </div>
+                `;
+                document.getElementById('btnConfirmar').disabled = true;
+                return;
+            }
+
+            contenedor.innerHTML = carrito.map(item => `
+                <div class="carrito-item">
+                    <div class="item-info">
+                        <div class="item-nombre">${item.nombre}</div>
+                        <div class="item-precio">$${item.precio.toFixed(2)}</div>
+                    </div>
+                    <div class="item-cantidad">
+                        <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, -1)">−</button>
+                        <span>${item.cantidad}</span>
+                        <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, 1)">+</button>
+                    </div>
+                    <div style="text-align: right; min-width: 100px;">
+                        <div style="font-weight: 600; color: #d32f2f; margin-bottom: 0.5rem;">
+                            $${(item.precio * item.cantidad).toFixed(2)}
+                        </div>
+                        <button class="item-eliminar" onclick="eliminarItem(${item.id})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            actualizarResumen(carrito);
+        }
+
+        function cambiarCantidad(id, cambio) {
+            // Actualizar en el servidor
+            fetch('/carrito/actualizar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `itemId=${id}&cantidad=${cambio}`
+            })
+            .then(response => cargarCarrito())
+            .catch(error => console.error('Error:', error));
+        }
+
+        function eliminarItem(id) {
+            // Eliminar del servidor
+            fetch(`/carrito/eliminar?itemId=${id}`)
+                .then(response => cargarCarrito())
+                .catch(error => console.error('Error:', error));
+        }
+
+        function actualizarResumen(carrito) {
+            const subtotal = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            const impuestos = subtotal * 0.10;
+            const envio = subtotal > 50 ? 0 : 5;
+            const total = subtotal + impuestos + envio;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('impuestos').textContent = `$${impuestos.toFixed(2)}`;
+            document.getElementById('envio').textContent = `$${envio.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function confirmarPedido() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            if (carrito.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            document.getElementById('formDatos').style.display = 'block';
+            document.querySelector('html, body').scrollTop = document.getElementById('formDatos').offsetTop;
+        }
+
+        function procesarPedido(event) {
+            event.preventDefault();
+            alert('¡Pedido confirmado! Te contactaremos pronto con los detalles de tu orden.');
+            localStorage.removeItem('carrito');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        }
+
+        // Sistema de Clasificación de Estrellas
+        document.querySelectorAll('.clasificacion .estrella').forEach(estrella => {
+            estrella.addEventListener('click', function() {
+                calificacionActual = this.dataset.valor;
+                document.querySelectorAll('.clasificacion .estrella').forEach((e, index) => {
+                    if (index < calificacionActual) {
+                        e.classList.add('activa');
+                    } else {
+                        e.classList.remove('activa');
+                    }
+                });
+            });
+        });
+
+        function enviarComentario() {
+            const texto = document.getElementById('textoComentario').value;
+            
+            if (!texto.trim()) {
+                alert('Por favor escribe un comentario');
+                return;
+            }
+
+            if (calificacionActual === 0) {
+                alert('Por favor selecciona una calificación');
+                return;
+            }
+
+            const nuevoComentario = `
+                <div class="comentario">
+                    <div class="comentario-autor"><i class="fas fa-user-circle"></i> Cliente</div>
+                    <div class="comentario-fecha">Hace unos momentos</div>
+                    <div class="comentario-estrellas">${'★'.repeat(calificacionActual)}${'☆'.repeat(5-calificacionActual)} ${calificacionActual}/5</div>
+                    <div class="comentario-texto">${texto}</div>
+                </div>
+            `;
+
+            const listaComentarios = document.getElementById('listaComentarios');
+            listaComentarios.insertAdjacentHTML('afterbegin', nuevoComentario);
+
+            document.getElementById('textoComentario').value = '';
+            calificacionActual = 0;
+            document.querySelectorAll('.clasificacion .estrella').forEach(e => e.classList.remove('activa'));
+
+            alert('¡Gracias por tu comentario!');
+        }
+    </script>
+</body>
+</html>

@@ -2,37 +2,728 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>listando usuarios</title>
-   <link rel="stylesheet" href="/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - Nuestra Taquería</title>
+    <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos para la página de menú */
+        .menu-hero {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .menu-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .menu-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .menu-section {
+            margin-bottom: 3rem;
+        }
+
+        .menu-section h2 {
+            font-size: 2rem;
+            color: #d32f2f;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #d32f2f;
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-section h2 i {
+            font-size: 2.2rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-left: 5px solid #d32f2f;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item-header {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .menu-item-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .menu-item-body {
+            padding: 1.5rem;
+        }
+
+        .menu-item-description {
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .menu-item-price {
+            font-size: 1.5rem;
+            color: #d32f2f;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item-badge {
+            display: inline-block;
+            background: #d32f2f;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-badge.special {
+            background: #f39c12;
+        }
+
+        .menu-item-badge.vegetarian {
+            background: #27ae60;
+        }
+
+        .btn-order {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-order:hover {
+            background: #b71c1c;
+            color: white;
+            text-decoration: none;
+        }
+
+        .users-section {
+            background: #f8f9fa;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+        }
+
+        .users-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .users-table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .users-table table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .users-table thead {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .users-table th {
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+            border: none;
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .users-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .cta-section a {
+            background: #d32f2f;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .cta-section a:hover {
+            background: #b71c1c;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-hero h1 {
+                font-size: 2rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .users-table {
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Incluir el fragmento navbar-->
+    <!-- Navegación -->
     <header th:replace="FRAGMENTOS/nav.html :: nav"></header>
-    <h1> Lista de Usuarios</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
 
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="user : ${listarusuarios}"> 
-                <td th:text=${user.id}></td>
-                <td th:text=${user.name}></td>
-                <td th:text=${user.email}></td>
-                <td th:text=${user.password}></td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Hero Section -->
+    <section class="menu-hero">
+        <h1><i class="fas fa-utensils"></i> Nuestro Menú</h1>
+        <p th:if="${session.usuarioLogueado}">
+            Bienvenido/a, <strong th:text="${session.usuarioLogueado.name}"></strong> - Descubre nuestras deliciosas opciones
+        </p>
+        <p th:unless="${session.usuarioLogueado}">Descubre nuestras deliciosas opciones</p>
+    </section>
 
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
- <footer th:replace="~{FRAGMENTOS/footer :: footer}"></footer>
+    <!-- Contenido Principal -->
+    <div class="menu-container">
+        <!-- Tacos Section -->
+        <div class="menu-section">
+            <h2><i class="fas fa-fire"></i> Tacos Especiales</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Taco de Carne Asada</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Deliciosa carne asada marinada con especias tradicionales, acompañada de cebolla, cilantro y limón fresco.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge special">Especial de la Casa</span>
+                        </div>
+                        <p class="menu-item-price">$3.50 c/u</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Taco de Carne Asada', 3.50)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Taco al Pastor</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Carne de cerdo adobada con piña, servida en tortilla de maíz con cebolla y cilantro.
+                        </p>
+                        <p class="menu-item-price">$3.25 c/u</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Taco al Pastor', 3.25)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Taco de Pollo Deshebrado</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Pollo tierno deshebrado cocido lentamente, con salsa verde y pico de gallo casero.
+                        </p>
+                        <p class="menu-item-price">$2.99 c/u</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Taco de Pollo Deshebrado', 2.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Taco de Pescado</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Filete de pescado fresco frito, col morada, repollo crujiente y salsa tártara casera.
+                        </p>
+                        <p class="menu-item-price">$4.25 c/u</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Taco de Pescado', 4.25)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Taco de Canasta</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Auténtico taco de papas con chorizo, servido en tortilla recién hecha y salsa picante.
+                        </p>
+                        <p class="menu-item-price">$2.75 c/u</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Taco de Canasta', 2.75)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Taco de Lengua</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Lengua de res cocida y servida con cebolla blanca, cilantro fresco y salsa verde casera.
+                        </p>
+                        <p class="menu-item-price">$3.75 c/u</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Taco de Lengua', 3.75)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comidas Adicionales Section -->
+        <div class="menu-section">
+            <h2><i class="fas fa-leaf"></i> Acompañamientos</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Guacamole Fresco</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Aguacate fresco molido con limón, cebolla, cilantro y sal marina.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$4.50</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Guacamole Fresco', 4.50)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Quesadilla</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Tortilla de harina rellena de queso Oaxaca y a tu elección: champiñones, flor de calabaza o rajas.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$5.99</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Quesadilla', 5.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Chiles Rellenos</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Chiles poblanos rellenos de queso fresco, bañados en salsa roja casera.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$7.99</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Chiles Rellenos', 7.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Elotes</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Mazorca de maíz con mayonesa, queso fresco, chile en polvo y un toque de limón.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$3.99</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Elotes', 3.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Nachos con Queso</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Tortillas frita crujientes con queso derretido, jalapeños y complementos de tu preferencia.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$6.49</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Nachos con Queso', 6.49)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Esquites</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Granos de maíz tierno con mayonesa, queso fresco, chile piquín y un toque de limón fresco.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$3.49</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Esquites', 3.49)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bebidas Section -->
+        <div class="menu-section">
+            <h2><i class="fas fa-glass-cheers"></i> Bebidas</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Agua Fresca de Jamaica</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Tradicional bebida mexicana refrescante hecha con flores de jamaica, azúcar y hielo.
+                        </p>
+                        <p class="menu-item-price">$2.49</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Agua Fresca de Jamaica', 2.49)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Agua de Horchata</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Deliciosa bebida a base de arroz, almendras y canela. Perfecta para acompañar tus tacos.
+                        </p>
+                        <p class="menu-item-price">$2.99</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Agua de Horchata', 2.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Refresco Mexicano</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Selección de refrescos mexicanos tradicionales y refrescos fríos de la región.
+                        </p>
+                        <p class="menu-item-price">$1.99</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Refresco Mexicano', 1.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Cerveza Artesanal</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Selección de cervezas artesanales mexicanas y nacionales de calidad premium.
+                        </p>
+                        <p class="menu-item-price">$4.99</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Cerveza Artesanal', 4.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Limonada Casera</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Refrescante limonada preparada con limón fresco, agua pura y el endulzante de tu preferencia.
+                        </p>
+                        <p class="menu-item-price">$2.25</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Limonada Casera', 2.25)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Postres Section -->
+        <div class="menu-section">
+            <h2><i class="fas fa-birthday-cake"></i> Postres</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Flan Casero</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Tradicional flan mexicano con caramelo casero y un toque de vainilla pura.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$3.99</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Flan Casero', 3.99)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Churros con Chocolate</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Churros dorados y crujientes acompañados de chocolate caliente espeso y delicioso.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$4.49</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Churros con Chocolate', 4.49)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Arroz con Leche</h3>
+                    </div>
+                    <div class="menu-item-body">
+                        <p class="menu-item-description">
+                            Dulce postre de arroz cremoso con leche, canela y pasas. Receta tradicional abuela.
+                        </p>
+                        <div>
+                            <span class="menu-item-badge vegetarian">Vegetariano</span>
+                        </div>
+                        <p class="menu-item-price">$3.49</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Arroz con Leche', 3.49)">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Usuarios Registrados -->
+        <div class="users-section">
+            <h3><i class="fas fa-users"></i> Clientes Registrados</h3>
+            <div class="users-table" th:if="${listarusuarios != null and !listarusuarios.isEmpty()}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> ID</th>
+                            <th><i class="fas fa-user"></i> Nombre</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-calendar"></i> Miembro desde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${listarusuarios}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy')}">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${listarusuarios == null or listarusuarios.isEmpty()}" style="text-align: center; padding: 2rem; color: #7f8c8d;">
+                <p><i class="fas fa-info-circle"></i> No hay usuarios registrados aún.</p>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <a href="/" class="btn-order" style="display: inline-block; text-decoration: none;">
+                <i class="fas fa-home"></i> Volver al Inicio
+            </a>
+            <a href="/pedidos" style="background: #f39c12;">
+                <i class="fas fa-shopping-cart"></i> Ver Mi Carrito
+            </a>
+            <a href="/mision" style="background: #27ae60;">
+                <i class="fas fa-heart"></i> Conocer Nuestra Misión
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="~{FRAGMENTOS/footer :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    
+    <script>
+        // Sistema de Carrito de Compras
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        function agregarAlCarrito(producto, precio) {
+            const item = {
+                nombre: producto,
+                precio: precio,
+                cantidad: 1,
+                id: Date.now()
+            };
+
+            // Verificar si el producto ya existe
+            const existe = carrito.find(p => p.nombre === producto);
+            if (existe) {
+                existe.cantidad++;
+            } else {
+                carrito.push(item);
+            }
+
+            // Guardar en localStorage
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+
+            // Enviar al servidor (AJAX)
+            fetch('/carrito/agregar-ajax', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `nombre=${encodeURIComponent(producto)}&precio=${precio}&cantidad=${existe ? existe.cantidad : 1}`
+            })
+            .then(response => response.json())
+            .catch(error => console.error('Error:', error));
+
+            // Mostrar notificación
+            mostrarNotificacion(`✓ ${producto} agregado al carrito`);
+            actualizarCarrito();
+        }
+
+        function mostrarNotificacion(mensaje) {
+            const notif = document.createElement('div');
+            notif.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #27ae60;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            notif.textContent = mensaje;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        function actualizarCarrito() {
+            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            const cantidad = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            
+            // Aquí podrías actualizar el badge del carrito en la nav si existe
+            console.log(`Carrito: ${cantidad} items - Total: $${total.toFixed(2)}`);
+        }
+
+        function irAlCarrito() {
+            if (carrito.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            // Redirigir a página de pedidos
+            window.location.href = '/pedidos';
+        }
+
+        // Inicializar carrito al cargar
+        window.addEventListener('load', actualizarCarrito);
+    </script>
 </body>
 </html>
