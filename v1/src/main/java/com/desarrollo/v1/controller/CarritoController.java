@@ -21,9 +21,12 @@ import com.desarrollo.v1.service.ItemCarritoService;
 import com.desarrollo.v1.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 @Controller
 @RequestMapping("/carrito")
+@Tag(name = "Cart", description = "Operaciones relacionadas con el carrito de compras")
 public class CarritoController {
     @Autowired
     ItemCarritoService itemCarritoService;
@@ -35,6 +38,7 @@ public class CarritoController {
     OpcionRepository opcionRepository;
 
     @GetMapping("/ver")
+    @Operation(summary = "Ver carrito", description = "Muestra la vista del carrito del usuario autenticado")
     public String verCarrito(HttpSession session, Model model) {
         // Verificar si el usuario está autenticado
         if (session.getAttribute("usuarioLogueado") == null) {
@@ -59,6 +63,7 @@ public class CarritoController {
     }
 
     @PostMapping("/agregar")
+    @Operation(summary = "Agregar al carrito (form)", description = "Agrega un producto al carrito usando datos del formulario")
     public String agregarAlCarrito(@RequestParam Long opcionId,
                                   @RequestParam(defaultValue = "1") Integer cantidad,
                                   @RequestParam(defaultValue = "") String notas,
@@ -82,6 +87,7 @@ public class CarritoController {
     }
 
     @GetMapping("/eliminar")
+    @Operation(summary = "Eliminar del carrito", description = "Elimina un item del carrito por su id")
     public String eliminarDelCarrito(@RequestParam Long itemId,
                                     HttpSession session,
                                     RedirectAttributes redirectAttributes) {
@@ -105,6 +111,7 @@ public class CarritoController {
     }
 
     @PostMapping("/actualizar")
+    @Operation(summary = "Actualizar cantidad", description = "Actualiza la cantidad de un item en el carrito")
     public String actualizarCantidad(@RequestParam Long itemId,
                                     @RequestParam Integer cantidad,
                                     HttpSession session,
@@ -130,6 +137,7 @@ public class CarritoController {
     }
 
     @GetMapping("/vaciar")
+    @Operation(summary = "Vaciar carrito", description = "Elimina todos los items del carrito del usuario autenticado")
     public String vaciarCarrito(HttpSession session, RedirectAttributes redirectAttributes) {
         // Verificar si el usuario está autenticado
         if (session.getAttribute("usuarioLogueado") == null) {
@@ -149,6 +157,7 @@ public class CarritoController {
 
     @PostMapping("/agregar-ajax")
     @ResponseBody
+    @Operation(summary = "Agregar al carrito (AJAX)", description = "Agrega un producto al carrito mediante request AJAX y retorna JSON")
     public String agregarAlCarritoAjax(@RequestParam String nombre,
                                       @RequestParam Double precio,
                                       @RequestParam(defaultValue = "1") Integer cantidad,
@@ -193,6 +202,7 @@ public class CarritoController {
 
     @GetMapping("/obtener-items-ajax")
     @ResponseBody
+    @Operation(summary = "Obtener items (AJAX)", description = "Retorna los items del carrito en formato JSON para consumo AJAX")
     public String obtenerItemsCarritoAjax(HttpSession session) {
         // Verificar si el usuario está autenticado
         if (session.getAttribute("usuarioLogueado") == null) {

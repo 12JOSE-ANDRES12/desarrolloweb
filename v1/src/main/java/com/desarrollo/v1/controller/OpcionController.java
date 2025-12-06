@@ -15,9 +15,12 @@ import com.desarrollo.v1.model.Opcion;
 import com.desarrollo.v1.service.ItemCarritoService;
 import com.desarrollo.v1.service.OpcionService;
 import com.desarrollo.v1.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 @Controller
 @RequestMapping("/opciones")
+@Tag(name = "Options", description = "Gestión de opciones/productos del menú")
 public class OpcionController {
     @Autowired
     OpcionService opcionService;
@@ -29,12 +32,14 @@ public class OpcionController {
     ItemCarritoService itemCarritoService;
 
     @GetMapping("/listar")
+    @Operation(summary = "Listar opciones", description = "Muestra la vista con todas las opciones")
     public String listarOpciones(Model model) {
         model.addAttribute("opciones", opcionService.obtenerTodasLasOpciones());
         return "opciones/listar";
     }
 
     @GetMapping("/categoria")
+    @Operation(summary = "Listar por categoría", description = "Lista las opciones filtradas por categoría")
     public String listarPorCategoria(@RequestParam String categoria, Model model) {
         model.addAttribute("opciones", opcionService.obtenerOpcionesPorCategoria(categoria));
         model.addAttribute("categoria", categoria);
@@ -42,6 +47,7 @@ public class OpcionController {
     }
 
     @PostMapping("/crear")
+    @Operation(summary = "Crear opción", description = "Crea una nueva opción/producto a partir del formulario")
     public String crearOpcion(@RequestParam String nombre,
                              @RequestParam String descripcion,
                              @RequestParam Double precio,
@@ -60,6 +66,7 @@ public class OpcionController {
     }
 
     @GetMapping("/editar")
+    @Operation(summary = "Editar opción (vista)", description = "Carga la vista de edición para una opción existente")
     public String editarOpcion(@RequestParam Long id, Model model) {
         Optional<Opcion> opcion = opcionService.obtenerOpcionPorId(id);
         if (opcion.isPresent()) {
@@ -70,6 +77,7 @@ public class OpcionController {
     }
 
     @PostMapping("/actualizar")
+    @Operation(summary = "Actualizar opción", description = "Actualiza los datos de una opción existente")
     public String actualizarOpcion(@RequestParam Long id,
                                   @RequestParam String nombre,
                                   @RequestParam String descripcion,
@@ -89,6 +97,7 @@ public class OpcionController {
     }
 
     @GetMapping("/eliminar")
+    @Operation(summary = "Eliminar opción", description = "Elimina una opción por su id")
     public String eliminarOpcion(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         try {
             if (opcionService.eliminarOpcion(id)) {

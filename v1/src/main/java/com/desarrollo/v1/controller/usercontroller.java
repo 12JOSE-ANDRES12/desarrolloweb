@@ -13,20 +13,25 @@ import com.desarrollo.v1.service.UserService;
 import com.desarrollo.v1.model.usermodel;
 import java.util.Optional;
 import jakarta.servlet.http.HttpSession;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 @Controller
 @RequestMapping("/users")
+@Tag(name = "Users", description = "Operaciones relacionadas con usuarios (registro, login, listado)")
 public class usercontroller {
     @Autowired
     UserService userService;
 
     @GetMapping("/listar")
+    @Operation(summary = "Listar usuarios", description = "Retorna la vista con la lista de usuarios")
     public String listUsers(Model model){
         model.addAttribute("listarusuarios", userService.getAllUsers());
         return "users/list";
     }
     
     @PostMapping("/registro")
+    @Operation(summary = "Registro de usuario", description = "Registra un nuevo usuario a partir de los campos enviados por formulario")
     public String registro(@RequestParam String nombre, 
                           @RequestParam String email,
                           @RequestParam String password,
@@ -58,6 +63,7 @@ public class usercontroller {
     }
     
     @PostMapping("/login")
+    @Operation(summary = "Iniciar sesión", description = "Autentica al usuario y crea la sesión")
     public String login(@RequestParam String email,
                        @RequestParam String password,
                        HttpSession session,
@@ -76,6 +82,7 @@ public class usercontroller {
     }
     
     @GetMapping("/logout")
+    @Operation(summary = "Cerrar sesión", description = "Elimina la sesión del usuario autenticado")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
         session.removeAttribute("usuarioLogueado");
         redirectAttributes.addFlashAttribute("exito", "Sesión cerrada correctamente");
