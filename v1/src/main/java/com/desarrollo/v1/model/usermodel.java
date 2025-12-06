@@ -1,7 +1,12 @@
 package com.desarrollo.v1.model;
 
+import java.time.LocalDateTime;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,8 +14,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table(name = "tbl_users")
@@ -35,6 +38,11 @@ public class usermodel {
    @Column(name ="password", nullable = false)
    @Schema(description = "Contraseña (hashed) del usuario", example = "********")
    String password;
+   
+   @Column(name = "role", nullable = false)
+   @Enumerated(EnumType.STRING)
+   @Schema(description = "Rol del usuario (ADMIN o USER)", example = "USER")
+   UserRole role;
    
    @Column(name ="created_at")
    @Schema(description = "Fecha de creación del usuario")

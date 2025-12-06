@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.desarrollo.v1.model.UserRole;
 import com.desarrollo.v1.model.usermodel;
 import com.desarrollo.v1.repository.userRepository;
 
@@ -29,6 +30,7 @@ public class UserService {
         nuevoUsuario.setName(nombre);
         nuevoUsuario.setEmail(email);
         nuevoUsuario.setPassword(password);
+        nuevoUsuario.setRole(UserRole.USER);
         nuevoUsuario.setCreatedAt(LocalDateTime.now());
         
         userRepository.save(nuevoUsuario);
@@ -49,5 +51,27 @@ public class UserService {
     
     public Optional<usermodel> obtenerUsuarioPorEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public void crearAdminPorDefecto() {
+        String adminEmail = "admin@taqueria.com";
+        
+        // Verificar si ya existe el admin
+        if (userRepository.existsByEmail(adminEmail)) {
+            return;
+        }
+        
+        // Crear usuario admin por defecto
+        usermodel admin = new usermodel();
+        admin.setName("Administrador");
+        admin.setEmail(adminEmail);
+        admin.setPassword("admin123"); // Cambiar esto en producción
+        admin.setRole(UserRole.ADMIN);
+        admin.setCreatedAt(LocalDateTime.now());
+        
+        userRepository.save(admin);
+        System.out.println("✅ Usuario administrador creado por defecto:");
+        System.out.println("   Email: " + adminEmail);
+        System.out.println("   Contraseña: admin123");
     }
 }
