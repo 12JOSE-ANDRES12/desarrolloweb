@@ -565,64 +565,129 @@
 
     <script>
         let calificacionActual = 0;
+        let carritoCache = []; // Cache local para respuesta rápida
 
-        // Cargar carrito al inicio
-        window.addEventListener('load', cargarCarrito);
+        // Cargar carrito al inicio (DOMContentLoaded es más rápido que load)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', cargarCarrito);
+        } else {
+            cargarCarrito();
+        }
 
         function cargarCarrito() {
-            // Obtener items desde el servidor
-            fetch('/carrito/obtener-items-ajax')
+            // PRIMERO: Cargar desde localStorage (instantáneo)
+            const carritoLocal = JSON.parse(localStorage.getItem('carrito')) || [];
+            if (carritoLocal.length > 0) {
+                carritoCache = carritoLocal;
+                renderizarCarrito(carritoLocal);
+                actualizarResumen(carritoLocal);
+            } else {
+                document.getElementById('carritoItems').innerHTML = `
+                    <div class="carrito-vacio">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Tu carrito está vacío</p>
+                        <a href="/menu" style="color: #d32f2f; text-decoration: none; font-weight: 600;">
+                            Ir al menú para agregar productos
+                        </a>
+                    </div>
+                `;
+                document.getElementById('btnConfirmar').disabled = true;
+                return;
+            }
+
+            // LUEGO: Sincronizar con servidor en background (sin bloquear UI)
+            fetch('/carrito/obtener-items-ajax', { priority: 'low' })
                 .then(response => response.json())
                 .then(items => {
-                    const contenedor = document.getElementById('carritoItems');
-                    
-                    if (!Array.isArray(items) || items.length === 0) {
-                        contenedor.innerHTML = `
-                            <div class="carrito-vacio">
-                                <i class="fas fa-shopping-cart"></i>
-                                <p>Tu carrito está vacío</p>
-                                <a href="/menu" style="color: #d32f2f; text-decoration: none; font-weight: 600;">
-                                    Ir al menú para agregar productos
-                                </a>
-                            </div>
-                        `;
-                        document.getElementById('btnConfirmar').disabled = true;
-                        return;
+                    if (Array.isArray(items) && items.length > 0) {
+                        // Actualizar cache si el servidor tiene datos diferentes
+                        carritoCache = items;
+                        renderizarCarrito(items);
+                        actualizarResumen(items);
                     }
-
-                    contenedor.innerHTML = items.map(item => `
-                        <div class="carrito-item">
-                            <div class="item-info">
-                                <div class="item-nombre">${item.nombre}</div>
-                                <div class="item-precio">$${item.precio.toFixed(2)}</div>
-                            </div>
-                            <div class="item-cantidad">
-                                <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, -1)">−</button>
-                                <span>${item.cantidad}</span>
-                                <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, 1)">+</button>
-                            </div>
-                            <div style="text-align: right; min-width: 100px;">
-                                <div style="font-weight: 600; color: #d32f2f; margin-bottom: 0.5rem;">
-                                    $${(item.precio * item.cantidad).toFixed(2)}
-                                </div>
-                                <button class="item-eliminar" onclick="eliminarItem(${item.id})">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    `).join('');
-
-                    actualizarResumen(items);
                 })
-                .catch(error => {
-                    console.error('Error al cargar carrito:', error);
-                    // Fallback a localStorage si falla el servidor
-                    cargarCarritoLocalStorage();
-                });
+                .catch(error => console.error('Error al sincronizar carrito:', error));
+        }
+
+        // Mapa de precios oficiales del menú (COP, enteros)
+        const priceMap = {
+            'Taco de Carne Asada': 13500,
+            'Taco al Pastor': 12800,
+            'Taco de Pollo Deshebrado': 17200,
+            'Taco de Pescado': 20900,
+            'Taco de Canasta': 12700,
+            'Taco de Lengua': 16400,
+            'Guacamole Fresco': 8000,
+            'Quesadilla': 10500,
+            'Chiles Rellenos': 13100,
+            'Elotes': 12000,
+            'Nachos con Queso': 9900,
+            'Esquites': 11900,
+            'Agua Fresca de Jamaica': 6700,
+            'Agua de Horchata': 11000,
+            'Refresco Mexicano': 7000,
+            'Cerveza Artesanal': 5900,
+            'Limonada Casera': 10000,
+            'Flan Casero': 14000,
+            'Churros con Chocolate': 7000,
+            'Arroz con Leche': 13000
+        };
+
+        function formatPriceDots(value) {
+            // Formatea precio con punto como separador de miles (ej. 13.000, 12.800)
+            const num = Math.round(Number(value) || 0);
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        function normalizarPrecio(nombre) {
+            // Retorna el precio oficial del menú o 0
+            return priceMap[nombre] || 0;
+        }
+
+        function renderizarCarrito(items) {
+            const contenedor = document.getElementById('carritoItems');
+            // Normalizar precios según mapa antes de renderizar
+            items.forEach(item => {
+                const precioOficial = normalizarPrecio(item.nombre);
+                if (precioOficial > 0) {
+                    item.precio = precioOficial;
+                }
+            });
+            // Persistir cambios en localStorage
+            try { localStorage.setItem('carrito', JSON.stringify(items)); } catch(e) {}
+            
+            contenedor.innerHTML = items.map(item => `
+                <div class="carrito-item" id="item-${item.id}">
+                    <div class="item-info">
+                        <div class="item-nombre">${item.nombre}</div>
+                        <div class="item-precio">$${formatPriceDots(item.precio)}</div>
+                    </div>
+                    <div class="item-cantidad">
+                        <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, -1)">−</button>
+                        <span id="qty-${item.id}">${item.cantidad}</span>
+                        <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, 1)">+</button>
+                    </div>
+                    <div style="text-align: right; min-width: 100px;">
+                        <div style="font-weight: 600; color: #d32f2f; margin-bottom: 0.5rem;" id="subtotal-${item.id}">
+                            $${formatPriceDots(item.precio * item.cantidad)}
+                        </div>
+                        <button class="item-eliminar" onclick="eliminarItem(${item.id})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function cargarCarritoLocalStorage() {
             const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            // Normalizar precios según mapa
+            carrito.forEach(item => {
+                const precioOficial = normalizarPrecio(item.nombre);
+                if (precioOficial > 0) {
+                    item.precio = precioOficial;
+                }
+            });
             const contenedor = document.getElementById('carritoItems');
 
             if (carrito.length === 0) {
@@ -643,7 +708,7 @@
                 <div class="carrito-item">
                     <div class="item-info">
                         <div class="item-nombre">${item.nombre}</div>
-                        <div class="item-precio">$${item.precio.toFixed(2)}</div>
+                        <div class="item-precio">$${formatPriceDots(item.precio)}</div>
                     </div>
                     <div class="item-cantidad">
                         <button class="cantidad-btn" onclick="cambiarCantidad(${item.id}, -1)">−</button>
@@ -652,7 +717,7 @@
                     </div>
                     <div style="text-align: right; min-width: 100px;">
                         <div style="font-weight: 600; color: #d32f2f; margin-bottom: 0.5rem;">
-                            $${(item.precio * item.cantidad).toFixed(2)}
+                            $${formatPriceDots(item.precio * item.cantidad)}
                         </div>
                         <button class="item-eliminar" onclick="eliminarItem(${item.id})">
                             <i class="fas fa-trash"></i> Eliminar
@@ -665,35 +730,70 @@
         }
 
         function cambiarCantidad(id, cambio) {
-            // Actualizar en el servidor
+            // Buscar item en cache local
+            const item = carritoCache.find(i => i.id === id);
+            if (!item) return;
+            
+            let nuevaCantidad = item.cantidad + cambio;
+            
+            // Si llega a 0 o menos, eliminar el item
+            if (nuevaCantidad < 1) {
+                eliminarItem(id);
+                return;
+            }
+            
+            // Normalizar precio antes de actualizar
+            const precioOficial = normalizarPrecio(item.nombre);
+            if (precioOficial > 0) item.precio = precioOficial;
+            
+            // ACTUALIZAR LOCALMENTE PRIMERO (sin esperar servidor) - Respuesta instantánea
+            item.cantidad = nuevaCantidad;
+            document.getElementById('qty-' + id).textContent = nuevaCantidad;
+            document.getElementById('subtotal-' + id).textContent = '$' + formatPriceDots(item.precio * nuevaCantidad);
+            actualizarResumen(carritoCache);
+            
+            // Luego sincronizar con el servidor en background
             fetch('/carrito/actualizar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `itemId=${id}&cantidad=${cambio}`
+                body: `itemId=${id}&cantidad=${nuevaCantidad}`
             })
-            .then(response => cargarCarrito())
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error al sincronizar:', error);
+                // Si falla, revertir cambio local
+                item.cantidad = nuevaCantidad - cambio;
+                document.getElementById('qty-' + id).textContent = item.cantidad;
+                document.getElementById('subtotal-' + id).textContent = '$' + formatPriceDots(item.precio * item.cantidad);
+                actualizarResumen(carritoCache);
+            });
         }
 
         function eliminarItem(id) {
-            // Eliminar del servidor
+            // Eliminar localmente primero
+            carritoCache = carritoCache.filter(i => i.id !== id);
+            document.getElementById('item-' + id).remove();
+            actualizarResumen(carritoCache);
+            
+            // Luego sincronizar con servidor en background
             fetch(`/carrito/eliminar?itemId=${id}`)
-                .then(response => cargarCarrito())
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error al eliminar:', error);
+                    cargarCarrito(); // Recargar si falla
+                });
         }
 
         function actualizarResumen(carrito) {
             const subtotal = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
             const impuestos = subtotal * 0.10;
-            const envio = subtotal > 50 ? 0 : 5;
+            const envio = subtotal === 0 ? 0 : (subtotal > 50 ? 0 : 5);
             const total = subtotal + impuestos + envio;
 
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('impuestos').textContent = `$${impuestos.toFixed(2)}`;
-            document.getElementById('envio').textContent = `$${envio.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('subtotal').textContent = `$${formatPriceDots(subtotal)}`;
+            document.getElementById('impuestos').textContent = `$${formatPriceDots(impuestos)}`;
+            document.getElementById('envio').textContent = `$${formatPriceDots(envio)}`;
+            document.getElementById('total').textContent = `$${formatPriceDots(total)}`;
         }
 
         function confirmarPedido() {
@@ -712,7 +812,7 @@
             localStorage.removeItem('carrito');
             setTimeout(() => {
                 window.location.href = '/';
-            }, 2000);
+            }, 500);
         }
 
         // Sistema de Clasificación de Estrellas

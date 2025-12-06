@@ -56,6 +56,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            auto-rows: 1fr;
         }
 
         .menu-item {
@@ -65,6 +66,17 @@
             overflow: hidden;
             transition: all 0.3s ease;
             border-left: 5px solid #d32f2f;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f0f0f0;
+            flex-shrink: 0;
         }
 
         .menu-item:hover {
@@ -87,6 +99,10 @@
 
         .menu-item-body {
             padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.5rem;
         }
 
         .menu-item-description {
@@ -137,6 +153,8 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            margin-top: auto;
+            flex-shrink: 0;
         }
 
         .btn-order:hover {
@@ -251,7 +269,7 @@
             <h2><i class="fas fa-fire"></i> Tacos Especiales</h2>
             <div class="menu-grid">
                 <div class="menu-item">
-                    <div class="menu-item-header">
+<img src="/images/tacos/carneasada.jpg" alt="Taco de Carne Asada" class="menu-item-image">                    <div class="menu-item-header">
                         <h3 class="menu-item-title">Taco de Carne Asada</h3>
                     </div>
                     <div class="menu-item-body">
@@ -261,22 +279,22 @@
                         <div>
                             <span class="menu-item-badge special">Especial de la Casa</span>
                         </div>
-                        <p class="menu-item-price">$3.50 c/u</p>
-                        <button class="btn-order" onclick="agregarAlCarrito('Taco de Carne Asada', 3.50)">
+                        <p class="menu-item-price">$13.500 c/u</p>
+                        <button class="btn-order" onclick="agregarAlCarrito('Taco de Carne Asada', 13500)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
                     </div>
                 </div>
 
                 <div class="menu-item">
-                    <div class="menu-item-header">
+<img src="/images/tacos/pastor1.jpg" alt="Taco Al Pastor" class="menu-item-image">                    <div class="menu-item-header">
                         <h3 class="menu-item-title">Taco al Pastor</h3>
                     </div>
                     <div class="menu-item-body">
                         <p class="menu-item-description">
                             Carne de cerdo adobada con piña, servida en tortilla de maíz con cebolla y cilantro.
                         </p>
-                        <p class="menu-item-price">$3.25 c/u</p>
+                        <p class="menu-item-price">$12.800 c/u</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Taco al Pastor', 3.25)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -284,6 +302,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/pollo.jpg" alt="Taco Pollo" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Taco de Pollo Deshebrado</h3>
                     </div>
@@ -291,7 +310,7 @@
                         <p class="menu-item-description">
                             Pollo tierno deshebrado cocido lentamente, con salsa verde y pico de gallo casero.
                         </p>
-                        <p class="menu-item-price">$2.99 c/u</p>
+                        <p class="menu-item-price">$17.200 c/u</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Taco de Pollo Deshebrado', 2.99)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -299,6 +318,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/pescado.jpg" alt="Taco Pescado" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Taco de Pescado</h3>
                     </div>
@@ -306,7 +326,7 @@
                         <p class="menu-item-description">
                             Filete de pescado fresco frito, col morada, repollo crujiente y salsa tártara casera.
                         </p>
-                        <p class="menu-item-price">$4.25 c/u</p>
+                        <p class="menu-item-price">$20.900 c/u</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Taco de Pescado', 4.25)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -314,6 +334,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/chorizo.jpg" alt="Taco Canasta" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Taco de Canasta</h3>
                     </div>
@@ -321,7 +342,7 @@
                         <p class="menu-item-description">
                             Auténtico taco de papas con chorizo, servido en tortilla recién hecha y salsa picante.
                         </p>
-                        <p class="menu-item-price">$2.75 c/u</p>
+                        <p class="menu-item-price">$12.700 c/u</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Taco de Canasta', 2.75)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -329,6 +350,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/mixto.jpg" alt="Taco Lengua" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Taco de Lengua</h3>
                     </div>
@@ -336,7 +358,7 @@
                         <p class="menu-item-description">
                             Lengua de res cocida y servida con cebolla blanca, cilantro fresco y salsa verde casera.
                         </p>
-                        <p class="menu-item-price">$3.75 c/u</p>
+                        <p class="menu-item-price">$16.400 c/u</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Taco de Lengua', 3.75)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -350,6 +372,8 @@
             <h2><i class="fas fa-leaf"></i> Acompañamientos</h2>
             <div class="menu-grid">
                 <div class="menu-item">
+ <img src="/images/tacos/guacamole.jpg" alt="Guacamole" class="menu-item-image">
+
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Guacamole Fresco</h3>
                     </div>
@@ -360,7 +384,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$4.50</p>
+                        <p class="menu-item-price">$8.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Guacamole Fresco', 4.50)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -368,24 +392,26 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/quesadillas.jpg" alt="Quesadillas" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Quesadilla</h3>
                     </div>
                     <div class="menu-item-body">
-                        <p class="menu-item-description">
-                            Tortilla de harina rellena de queso Oaxaca y a tu elección: champiñones, flor de calabaza o rajas.
-                        </p>
-                        <div>
-                            <span class="menu-item-badge vegetarian">Vegetariano</span>
-                        </div>
-                        <p class="menu-item-price">$5.99</p>
-                        <button class="btn-order" onclick="agregarAlCarrito('Quesadilla', 5.99)">
-                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                        </button>
+                <p class="menu-item-description">
+                    Tortilla de harina rellena de queso Oaxaca y a tu elección: champiñones, flor de calabaza o rajas.
+                </p>
+                <div>
+                    <span class="menu-item-badge vegetarian">Vegetariano</span>
+                </div>
+                <p class="menu-item-price">$10.500</p>
+                <button class="btn-order" onclick="agregarAlCarrito('Quesadilla', 5.99)">
+                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                </button>
                     </div>
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/Chiles.jpg" alt="Chiles" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Chiles Rellenos</h3>
                     </div>
@@ -396,7 +422,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$7.99</p>
+                        <p class="menu-item-price">$13.100</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Chiles Rellenos', 7.99)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -404,6 +430,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/elotes.jpg" alt="Elotes" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Elotes</h3>
                     </div>
@@ -414,7 +441,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$3.99</p>
+                        <p class="menu-item-price">$12.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Elotes', 3.99)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -422,6 +449,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/nachos.jpg" alt="Nachos" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Nachos con Queso</h3>
                     </div>
@@ -432,7 +460,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$6.49</p>
+                        <p class="menu-item-price">$9.900</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Nachos con Queso', 6.49)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -440,6 +468,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/esquites.jpg" alt="Esquites" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Esquites</h3>
                     </div>
@@ -450,7 +479,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$3.49</p>
+                        <p class="menu-item-price">$11.900</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Esquites', 3.49)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -463,7 +492,9 @@
         <div class="menu-section">
             <h2><i class="fas fa-glass-cheers"></i> Bebidas</h2>
             <div class="menu-grid">
+
                 <div class="menu-item">
+                    <img src="/images/tacos/jamaica.jpg" alt="Jamaica" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Agua Fresca de Jamaica</h3>
                     </div>
@@ -471,7 +502,7 @@
                         <p class="menu-item-description">
                             Tradicional bebida mexicana refrescante hecha con flores de jamaica, azúcar y hielo.
                         </p>
-                        <p class="menu-item-price">$2.49</p>
+                        <p class="menu-item-price">$6.700</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Agua Fresca de Jamaica', 2.49)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -479,6 +510,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/horchata.jpg" alt="Horchata" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Agua de Horchata</h3>
                     </div>
@@ -486,7 +518,7 @@
                         <p class="menu-item-description">
                             Deliciosa bebida a base de arroz, almendras y canela. Perfecta para acompañar tus tacos.
                         </p>
-                        <p class="menu-item-price">$2.99</p>
+                        <p class="menu-item-price">$11.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Agua de Horchata', 2.99)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -494,6 +526,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/mexicano.jpg" alt="Mexicano" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Refresco Mexicano</h3>
                     </div>
@@ -501,7 +534,7 @@
                         <p class="menu-item-description">
                             Selección de refrescos mexicanos tradicionales y refrescos fríos de la región.
                         </p>
-                        <p class="menu-item-price">$1.99</p>
+                        <p class="menu-item-price">$7.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Refresco Mexicano', 1.99)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -509,6 +542,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/cerveza.jpg" alt="Cerveza" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Cerveza Artesanal</h3>
                     </div>
@@ -516,7 +550,7 @@
                         <p class="menu-item-description">
                             Selección de cervezas artesanales mexicanas y nacionales de calidad premium.
                         </p>
-                        <p class="menu-item-price">$4.99</p>
+                        <p class="menu-item-price">$5.900</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Cerveza Artesanal', 4.99)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -524,6 +558,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/limonada.jpg" alt="Limonada" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Limonada Casera</h3>
                     </div>
@@ -531,7 +566,7 @@
                         <p class="menu-item-description">
                             Refrescante limonada preparada con limón fresco, agua pura y el endulzante de tu preferencia.
                         </p>
-                        <p class="menu-item-price">$2.25</p>
+                        <p class="menu-item-price">$10.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Limonada Casera', 2.25)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -544,7 +579,9 @@
         <div class="menu-section">
             <h2><i class="fas fa-birthday-cake"></i> Postres</h2>
             <div class="menu-grid">
+
                 <div class="menu-item">
+                    <img src="/images/tacos/flan.jpg" alt="Flan" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Flan Casero</h3>
                     </div>
@@ -555,7 +592,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$3.99</p>
+                        <p class="menu-item-price">$14.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Flan Casero', 3.99)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -563,6 +600,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/churros.jpg" alt="Churros" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Churros con Chocolate</h3>
                     </div>
@@ -573,7 +611,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$4.49</p>
+                        <p class="menu-item-price">$7.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Churros con Chocolate', 4.49)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -581,6 +619,7 @@
                 </div>
 
                 <div class="menu-item">
+                    <img src="/images/tacos/arroz-leche.jpg" alt="Arroz" class="menu-item-image">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">Arroz con Leche</h3>
                     </div>
@@ -591,7 +630,7 @@
                         <div>
                             <span class="menu-item-badge vegetarian">Vegetariano</span>
                         </div>
-                        <p class="menu-item-price">$3.49</p>
+                        <p class="menu-item-price">$13.000</p>
                         <button class="btn-order" onclick="agregarAlCarrito('Arroz con Leche', 3.49)">
                             <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                         </button>
@@ -652,9 +691,12 @@
         let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
         function agregarAlCarrito(producto, precio) {
+            // Asegurar que el precio es un entero (pesos colombianos)
+            const precioInt = Math.round(Number(precio));
+
             const item = {
                 nombre: producto,
-                precio: precio,
+                precio: precioInt,
                 cantidad: 1,
                 id: Date.now()
             };
@@ -663,6 +705,7 @@
             const existe = carrito.find(p => p.nombre === producto);
             if (existe) {
                 existe.cantidad++;
+                existe.precio = precioInt;
             } else {
                 carrito.push(item);
             }
@@ -676,7 +719,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `nombre=${encodeURIComponent(producto)}&precio=${precio}&cantidad=${existe ? existe.cantidad : 1}`
+                body: `nombre=${encodeURIComponent(producto)}&precio=${precioInt}&cantidad=${existe ? existe.cantidad : 1}`
             })
             .then(response => response.json())
             .catch(error => console.error('Error:', error));

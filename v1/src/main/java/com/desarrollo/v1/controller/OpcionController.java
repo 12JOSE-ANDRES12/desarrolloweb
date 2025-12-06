@@ -1,5 +1,7 @@
 package com.desarrollo.v1.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,13 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.desarrollo.v1.service.OpcionService;
-import com.desarrollo.v1.service.ItemCarritoService;
-import com.desarrollo.v1.service.UserService;
 import com.desarrollo.v1.model.Opcion;
-import com.desarrollo.v1.model.usermodel;
-import java.util.Optional;
-import jakarta.servlet.http.HttpSession;
+import com.desarrollo.v1.service.ItemCarritoService;
+import com.desarrollo.v1.service.OpcionService;
+import com.desarrollo.v1.service.UserService;
 
 @Controller
 @RequestMapping("/opciones")

@@ -1,13 +1,14 @@
 package com.desarrollo.v1.service;
 
-import org.springframework.stereotype.Service;
-
-import com.desarrollo.v1.repository.userRepository;
-import com.desarrollo.v1.model.usermodel;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.desarrollo.v1.model.usermodel;
+import com.desarrollo.v1.repository.userRepository;
 
 @Service
 public class UserService {
